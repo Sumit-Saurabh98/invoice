@@ -8,6 +8,12 @@ importers:
 
   .:
     dependencies:
+      '@conform-to/react':
+        specifier: ^1.7.0
+        version: 1.7.0(react@19.1.0)
+      '@conform-to/zod':
+        specifier: ^1.7.0
+        version: 1.7.0(zod@3.25.64)
       '@next-auth/prisma-adapter':
         specifier: ^1.0.7
         version: 1.0.7(@prisma/client@6.9.0(prisma@6.9.0(typescript@5.8.3))(typescript@5.8.3))(next-auth@5.0.0-beta.28(next@15.3.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(nodemailer@7.0.3)(react@19.1.0))
@@ -53,6 +59,9 @@ importers:
       tailwind-merge:
         specifier: ^3.3.1
         version: 3.3.1
+      zod:
+        specifier: ^3.25.64
+        version: 3.25.64
     devDependencies:
       '@eslint/eslintrc':
         specifier: ^3
@@ -114,6 +123,19 @@ packages:
         optional: true
       nodemailer:
         optional: true
+
+  '@conform-to/dom@1.7.0':
+    resolution: {integrity: sha512-u/k39to4Tz5nJ514XE1APL55reAJG4r7vxL9lMatoAKBQ1bVk3q9q8Z0ZVKZcgOx5L+u6qyewbFvZyuj7GNYOg==}
+
+  '@conform-to/react@1.7.0':
+    resolution: {integrity: sha512-K+Dkze9z+ZHtI/4qztXFYjF/1feNZddvpDkvfvMzeMDLcyBauZumP8pJYXQcWRbYcl8/Wbp5UCENsiXCqec0rg==}
+    peerDependencies:
+      react: '>=18'
+
+  '@conform-to/zod@1.7.0':
+    resolution: {integrity: sha512-s0M0cSPEuYllF1NYuWXFu8Rl8v2M3aGrdqJl49yQEkcBTxb2i876Prt2BppBDOF2xBzzXRcWn/hu+CpNAkYvGw==}
+    peerDependencies:
+      zod: ^3.21.0
 
   '@emnapi/core@1.4.3':
     resolution: {integrity: sha512-4m62DuCE07lw01soJwPiBGC0nAww0Q+RY70VZ+n49yDIO13yyinhbWCeNnaob0lakDtWQzSdtNWzJeOJt2ma+g==}
@@ -2342,6 +2364,9 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
 
+  zod@3.25.64:
+    resolution: {integrity: sha512-hbP9FpSZf7pkS7hRVUrOjhwKJNyampPgtXKc3AN6DsWtoHsg2Sb4SQaS4Tcay380zSwd2VPo9G9180emBACp5g==}
+
 snapshots:
 
   '@alloc/quick-lru@5.2.0': {}
@@ -2360,6 +2385,18 @@ snapshots:
       preact-render-to-string: 6.5.11(preact@10.24.3)
     optionalDependencies:
       nodemailer: 7.0.3
+
+  '@conform-to/dom@1.7.0': {}
+
+  '@conform-to/react@1.7.0(react@19.1.0)':
+    dependencies:
+      '@conform-to/dom': 1.7.0
+      react: 19.1.0
+
+  '@conform-to/zod@1.7.0(zod@3.25.64)':
+    dependencies:
+      '@conform-to/dom': 1.7.0
+      zod: 3.25.64
 
   '@emnapi/core@1.4.3':
     dependencies:
@@ -4756,3 +4793,5 @@ snapshots:
   yallist@5.0.0: {}
 
   yocto-queue@0.1.0: {}
+
+  zod@3.25.64: {}
