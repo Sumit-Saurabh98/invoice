@@ -6,6 +6,7 @@ import { invoiceSchema, onboardingSchema } from "./utils/zodSchemas";
 import prisma from "./utils/db";
 import { redirect } from "next/navigation";
 import { requireUser } from "./utils/hooks";
+import { sendNewInvoice } from "./utils/emailFormat/newInvoice";
 
 export async function onboardUser(prevState: any, formData: FormData) {
   const session = await auth();
@@ -65,6 +66,10 @@ export async function createInvoice(prevState: any, formData: FormData) {
       userId: session.user?.id,
     },
   });
+
+  if(data){
+    sendNewInvoice({senderName: data.fromName, clientName: data.clientName, clientEmail: data.clientEmail, invoiceNumber: data.invoiceNumber, dueDate: data.date, total: data.total, currency: data.currency as 'USD' | 'EUR' | 'INR'})
+  }
 
   return redirect("/dashboard/invoices");
 }
