@@ -61,7 +61,7 @@ const InvoiceList = async () => {
                 </TableCell>
                 <TableCell>{invoice.createdAt.toDateString()}</TableCell>
                 <TableCell className='text-right'>
-                    <InvoiceActions/>
+                    <InvoiceActions id={invoice.id}/>
                 </TableCell>
             </TableRow>
                 ))
