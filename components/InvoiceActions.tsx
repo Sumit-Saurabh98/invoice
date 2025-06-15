@@ -7,10 +7,11 @@ import Link from 'next/link'
 import { toast } from "sonner";
 
 interface InvoiceActionsProps {
-  id: string
+  id: string,
+  status: string
 }
 
-const InvoiceActions = ({id}: InvoiceActionsProps) => {
+const InvoiceActions = ({id, status}: InvoiceActionsProps) => {
 
   const handleSendReminder = () => {
     toast.promise(
@@ -54,11 +55,13 @@ const InvoiceActions = ({id}: InvoiceActionsProps) => {
             <Trash className='size-4 mr-2'/> Delete Invoice
             </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem asChild>
-            <Link href={''}>
-            <CheckCircle className='size-4 mr-2'/> Mark as Paid
+        {status !== "PAID" && (
+          <DropdownMenuItem asChild>
+            <Link href={`/dashboard/invoices/${id}/paid`}>
+              <CheckCircle className="size-4 mr-2" /> Mark as Paid
             </Link>
-        </DropdownMenuItem>
+          </DropdownMenuItem>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   )

@@ -55,13 +55,13 @@ const InvoiceList = async () => {
                 <TableCell>{invoice.clientName}</TableCell>
                 <TableCell>{formatCurrency({amount: invoice.total, currency: invoice.currency as 'USD' | 'EUR' | 'INR'})}</TableCell>
                 <TableCell>
-                    <Badge>
+                    <Badge variant={invoice.status === 'PAID' ? 'default' : 'destructive'}>
                     {invoice.status}
                     </Badge>
                 </TableCell>
                 <TableCell>{invoice.createdAt.toDateString()}</TableCell>
                 <TableCell className='text-right'>
-                    <InvoiceActions id={invoice.id}/>
+                    <InvoiceActions id={invoice.id} status={invoice.status}/>
                 </TableCell>
             </TableRow>
                 ))
