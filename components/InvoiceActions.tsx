@@ -5,7 +5,11 @@ import { Button } from './ui/button'
 import { CheckCircle, DownloadCloud, Mail, MoreHorizontal, Pencil, Trash } from 'lucide-react'
 import Link from 'next/link'
 
-const InvoiceActions = () => {
+interface InvoiceActionsProps {
+  id: string
+}
+
+const InvoiceActions = ({id}: InvoiceActionsProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -15,7 +19,7 @@ const InvoiceActions = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end'>
         <DropdownMenuItem asChild>
-            <Link href={''}>
+            <Link href={`/dashboard/invoices/${id}`}>
             <Pencil className='size-4 mr-2'/> Edit Invoice
             </Link>
         </DropdownMenuItem>
