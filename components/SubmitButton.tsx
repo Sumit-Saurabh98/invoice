@@ -1,34 +1,37 @@
-"use client"
+"use client";
 
-import React from 'react'
-import { useFormStatus } from 'react-dom'
-import { Button } from './ui/button'
-import {Loader2} from "lucide-react"
+import { Button } from "@/components/ui/button";
+import { useFormStatus } from "react-dom";
+import { Loader2 } from "lucide-react";
 
-interface SubmitButtonProps {
-  text: string
+interface iAppProps {
+  text: string;
+  variant?:
+    | "default"
+    | "destructive"
+    | "outline"
+    | "secondary"
+    | "ghost"
+    | "link"
+    | null
+    | undefined;
 }
 
-
-
-
-const SubmitButton = ({text}: SubmitButtonProps) => {
-    const {pending} = useFormStatus()
+const SubmitButton = ({ text, variant }: iAppProps) => {
+  const { pending } = useFormStatus();
   return (
     <>
-      {
-        pending ? (
-            <Button disabled className='w-full'>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please wait...
-            </Button>
-        ) : (
-            <Button type='submit' className='w-full'>
-                {text}
-            </Button>
-        )
-      }
+      {pending ? (
+        <Button disabled className="w-full" variant={variant}>
+          <Loader2 className="size-4 mr-2 animate-spin" /> Please wait...
+        </Button>
+      ) : (
+        <Button type="submit" className="w-full" variant={variant}>
+          {text}
+        </Button>
+      )}
     </>
-  )
+  );
 }
 
 export default SubmitButton
