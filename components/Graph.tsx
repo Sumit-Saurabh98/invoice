@@ -33,17 +33,17 @@ export function Graph({ data }: iAppProps) {
   const chartConfig = {
     amount: {
       label: "Amount",
-      color: "#3b82f6", 
+      color: "#3b82f6",
     },
   };
 
   return (
     <div className="w-full bg-white rounded-lg border border-gray-200 shadow-sm">
       <div className="p-4 border-b border-gray-100">
-        <h3 className="text-lg font-semibold text-gray-900">
-          Paid Invoices
-        </h3>
-        <p className="text-sm text-gray-500">Invoices which have been paid in the last 30 days.</p>
+        <h3 className="text-lg font-semibold text-gray-900">Paid Invoices</h3>
+        <p className="text-sm text-gray-500">
+          Invoices which have been paid in the last 30 days.
+        </p>
       </div>
 
       <div className="p-4">
@@ -119,19 +119,30 @@ export function Graph({ data }: iAppProps) {
       <div className="px-6 pb-6">
         <div className="flex flex-col sm:flex-row gap-6 justify-center items-center bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border border-slate-200/50 dark:border-slate-700/50 rounded-full p-4 hover:bg-white/90 dark:hover:bg-slate-800/90 transition-all duration-300 hover:shadow-lg">
           <div className="flex items-center gap-2 min-w-[200px] justify-center">
-            <span className="font-medium text-slate-700 dark:text-slate-300">Total Records:</span>
-            <span className="text-slate-900 dark:text-slate-100 font-semibold">{data.length}</span>
+            <span className="font-medium text-slate-700 dark:text-slate-300">
+              Total Records:
+            </span>
+            <span className="text-slate-900 dark:text-slate-100 font-semibold">
+              {data.length}
+            </span>
           </div>
           <div className="flex items-center gap-2 min-w-[200px] justify-center">
-            <span className="font-medium text-slate-700 dark:text-slate-300">Max Amount:</span>
+            <span className="font-medium text-slate-700 dark:text-slate-300">
+              Max Amount:
+            </span>
             <span className="text-emerald-600 dark:text-emerald-400 font-semibold">
               ${Math.max(...data.map((d) => d.amount)).toLocaleString("en-US")}
             </span>
           </div>
           <div className="flex items-center gap-2 min-w-[200px] justify-center">
-            <span className="font-medium text-slate-700 dark:text-slate-300">Total:</span>
+            <span className="font-medium text-slate-700 dark:text-slate-300">
+              Total:
+            </span>
             <span className="text-blue-600 dark:text-blue-400 font-semibold">
-              ${data.reduce((sum, d) => sum + d.amount, 0).toLocaleString("en-US")}
+              $
+              {data
+                .reduce((sum, d) => sum + d.amount, 0)
+                .toLocaleString("en-US")}
             </span>
           </div>
         </div>

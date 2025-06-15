@@ -86,8 +86,8 @@ export function Hero() {
               src="/hero.jpg"
               alt="Invoice Dashboard Preview"
               className="w-full h-auto rounded-xl lg:rounded-2xl shadow-lg"
-              width={1200}
-              height={800}
+              width={800}
+              height={600}
               priority
             />
             
