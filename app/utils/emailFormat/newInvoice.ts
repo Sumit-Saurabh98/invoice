@@ -2,28 +2,36 @@ import nodemailer from "nodemailer";
 import { formatCurrency } from "../formatCurrency";
 
 interface NewInvoiceProps {
-    senderName: string,
-    clientName: string,
-    clientEmail: string,
-    invoiceNumber: number,
-    dueDate: Date,
-    total: number,
-    currency: 'USD' | 'EUR' | 'INR'
+  id: string;
+  senderName: string;
+  clientName: string;
+  clientEmail: string;
+  invoiceNumber: number;
+  dueDate: Date;
+  total: number;
+  currency: "USD" | "EUR" | "INR";
 }
-export const sendNewInvoice = async (
-    {senderName, clientName, clientEmail, invoiceNumber, dueDate, total, currency}: NewInvoiceProps
-) =>{
-    const transport = nodemailer.createTransport({
-        host: process.env.EMAIL_SERVER_HOST,
-        port: process.env.EMAIL_SERVER_PORT as unknown as number,
-        secure: true,
-        auth: {
-            user: process.env.EMAIL_SERVER_USER,
-            pass: process.env.EMAIL_SERVER_PASSWORD,
-        },
-    });
+export const sendNewInvoice = async ({
+  id,
+  senderName,
+  clientName,
+  clientEmail,
+  invoiceNumber,
+  dueDate,
+  total,
+  currency,
+}: NewInvoiceProps) => {
+  const transport = nodemailer.createTransport({
+    host: process.env.EMAIL_SERVER_HOST,
+    port: process.env.EMAIL_SERVER_PORT as unknown as number,
+    secure: true,
+    auth: {
+      user: process.env.EMAIL_SERVER_USER,
+      pass: process.env.EMAIL_SERVER_PASSWORD,
+    },
+  });
 
-    const emailTemplate = `
+  const emailTemplate = `
     <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -93,12 +101,14 @@ export const sendNewInvoice = async (
         <ul>
           <li>Invoice Number: #${invoiceNumber}</li>
           <li>Due Date: ${dueDate}</li>
-          <li>Total Amount: ${formatCurrency({amount: total, currency})}</li>
+          <li>Total Amount: ${formatCurrency({ amount: total, currency })}</li>
         </ul>
 
         <p>You can download your invoice by clicking the button below:</p>
 
-        <a href="xyz" class="button">Download Invoice</a>
+        <a href="${
+          process.env.NEXT_PUBLIC_APP_URL
+        }/api/invoice/${id}" class="button">Download Invoice</a>
 
         <p>
           If you have any questions or concerns, please don't hesitate to
@@ -110,12 +120,12 @@ export const sendNewInvoice = async (
     </div>
   </body>
 </html>
-    `
+    `;
 
-    await transport.sendMail({
-        from: process.env.EMAIL_SERVER_USER,
-        to: clientEmail,
-        subject: "New Invoice for you",
-        html: emailTemplate,
-    });
-}
+  await transport.sendMail({
+    from: process.env.EMAIL_SERVER_USER,
+    to: clientEmail,
+    subject: "New Invoice for you",
+    html: emailTemplate,
+  });
+};

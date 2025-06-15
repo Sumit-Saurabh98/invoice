@@ -68,7 +68,7 @@ export async function createInvoice(prevState: any, formData: FormData) {
   });
 
   if(data){
-    sendNewInvoice({senderName: data.fromName, clientName: data.clientName, clientEmail: data.clientEmail, invoiceNumber: data.invoiceNumber, dueDate: data.date, total: data.total, currency: data.currency as 'USD' | 'EUR' | 'INR'})
+    sendNewInvoice({id:data.id, senderName: data.fromName, clientName: data.clientName, clientEmail: data.clientEmail, invoiceNumber: data.invoiceNumber, dueDate: data.date, total: data.total, currency: data.currency as 'USD' | 'EUR' | 'INR'})
   }
 
   return redirect("/dashboard/invoices");
