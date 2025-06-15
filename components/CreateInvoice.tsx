@@ -329,7 +329,7 @@ const CreateInvoice = () => {
 
           <div className="flex justify-end items-center mt-6">
             <div>
-              <SubmitButton text="Create Invoice" />
+              <SubmitButton text="Send Invoice to Client" />
             </div>
           </div>
         </form>
