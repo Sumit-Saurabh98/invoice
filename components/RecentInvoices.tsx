@@ -32,7 +32,7 @@ export async function RecentInvoices() {
   return (
     <Card className="w-full overflow-hidden">
       <CardHeader className="pb-3">
-        <CardTitle className="text-lg font-semibold text-gray-900">
+        <CardTitle className="text-lg font-semibold tracking-tight text-green-50">
           Recent Invoices
         </CardTitle>
       </CardHeader>
