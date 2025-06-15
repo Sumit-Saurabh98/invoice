@@ -18,7 +18,7 @@ const InvoicesRoute = () => {
                         Manage your invoices right here
                     </CardDescription>
                 </div>
-                <Link href={'/'} className={buttonVariants()}>
+                <Link href={'/dashboard/invoices/create'} className={buttonVariants()}>
                 <PlusIcon className='size-5'/> Create Invoice
                 </Link>
             </div>
