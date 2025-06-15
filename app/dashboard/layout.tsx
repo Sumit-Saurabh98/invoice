@@ -23,6 +23,7 @@ import { signOut } from "../utils/auth";
 import prisma from "../utils/db";
 import { redirect } from "next/navigation";
 import { Toaster } from "@/components/ui/sonner";
+import { ToggleMode } from "@/components/ToggleMode";
 
 async function getUser(userId: string) {
     const data = await prisma.user.findUnique({
@@ -87,6 +88,7 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
             </Sheet>
 
             <div className="flex items-center ml-auto">
+              <div className="mr-4"><ToggleMode /></div>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button

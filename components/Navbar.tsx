@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Logo from "@/public/logo.png";
 import { RainbowButton } from "./ui/rainbow-button";
+import { ToggleMode } from "./ToggleMode";
 
 
 
@@ -14,9 +15,7 @@ export function Navbar() {
           Invoice
         </h3>
       </Link>
-      <Link href="/login">
-        <RainbowButton>Get Started</RainbowButton>
-      </Link>
+      <ToggleMode />
     </div>
   );
 }

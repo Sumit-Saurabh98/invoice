@@ -116,34 +116,36 @@ export function Graph({ data }: iAppProps) {
       </div>
 
       {/* Stats Summary */}
-      <div className="px-6 pb-6">
-        <div className="flex flex-col sm:flex-row gap-6 justify-center items-center bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border border-slate-200/50 dark:border-slate-700/50 rounded-full p-4 hover:bg-white/90 dark:hover:bg-slate-800/90 transition-all duration-300 hover:shadow-lg">
-          <div className="flex items-center gap-2 min-w-[200px] justify-center">
-            <span className="font-medium text-slate-700 dark:text-slate-300">
-              Total Records:
-            </span>
-            <span className="text-slate-900 dark:text-slate-100 font-semibold">
-              {data.length}
-            </span>
-          </div>
-          <div className="flex items-center gap-2 min-w-[200px] justify-center">
-            <span className="font-medium text-slate-700 dark:text-slate-300">
-              Max Amount:
-            </span>
-            <span className="text-emerald-600 dark:text-emerald-400 font-semibold">
-              ${Math.max(...data.map((d) => d.amount)).toLocaleString("en-US")}
-            </span>
-          </div>
-          <div className="flex items-center gap-2 min-w-[200px] justify-center">
-            <span className="font-medium text-slate-700 dark:text-slate-300">
-              Total:
-            </span>
-            <span className="text-blue-600 dark:text-blue-400 font-semibold">
-              $
-              {data
-                .reduce((sum, d) => sum + d.amount, 0)
-                .toLocaleString("en-US")}
-            </span>
+      <div className="px-4 pb-6">
+        <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border border-slate-200/50 dark:border-slate-700/50 rounded-lg p-4 hover:bg-white/90 dark:hover:bg-slate-800/90 transition-all duration-300 hover:shadow-lg">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+            <div className="flex flex-col items-center gap-1">
+              <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                Total Records
+              </span>
+              <span className="text-lg text-slate-900 dark:text-slate-100 font-semibold">
+                {data.length}
+              </span>
+            </div>
+            <div className="flex flex-col items-center gap-1">
+              <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                Max Amount
+              </span>
+              <span className="text-lg text-emerald-600 dark:text-emerald-400 font-semibold">
+                ${Math.max(...data.map((d) => d.amount)).toLocaleString("en-US")}
+              </span>
+            </div>
+            <div className="flex flex-col items-center gap-1">
+              <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                Total
+              </span>
+              <span className="text-lg text-blue-600 dark:text-blue-400 font-semibold">
+                $
+                {data
+                  .reduce((sum, d) => sum + d.amount, 0)
+                  .toLocaleString("en-US")}
+              </span>
+            </div>
           </div>
         </div>
       </div>
