@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { CalendarIcon } from "lucide-react";
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useMemo, useState } from "react";
 import { useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
 import { Invoice } from "@/lib/generated/prisma";
@@ -48,12 +48,24 @@ export function EditInvoice({ data }: IeditInvoiceProps) {
     shouldRevalidate: "onInput",
   });
 
-  const [selectedDate, setSelectedDate] = useState(data.date);
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(data.date);
   const [rate, setRate] = useState(data.invoiceItemRate.toString());
+  const [open, setOpen] = useState<boolean | undefined>(false);
   const [quantity, setQuantity] = useState(data.invoiceItemQuantity.toString());
-  const [currency, setCurrency] = useState(data.currency);
+  const [amount, setAmount] = useState("");
+  const [currency, setCurrency] = useState<"USD" | "EUR" | "INR">(data.currency as "USD" | "EUR" | "INR");
 
-  const calcualteTotal = (Number(quantity) || 0) * (Number(rate) || 0);
+  const calculateTotal = () => {
+    const total = (parseFloat(rate) || 0) * (parseFloat(quantity) || 0);
+    return total.toFixed(2);
+  };
+
+  const total = useMemo(() => calculateTotal(), [rate, quantity]);
+
+  useEffect(() => {
+    setAmount(total);
+  }, [total]);
+
   return (
     <Card className="w-full max-w-4xl mx-auto">
       <CardContent className="p-6">
@@ -61,14 +73,14 @@ export function EditInvoice({ data }: IeditInvoiceProps) {
           <input
             type="hidden"
             name={fields.date.name}
-            value={selectedDate.toISOString()}
+            value={selectedDate?.toISOString()}
           />
           <input type="hidden" name="id" value={data.id} />
 
           <input
             type="hidden"
             name={fields.total.name}
-            value={calcualteTotal}
+            value={Number(amount)}
           />
 
           <div className="flex flex-col gap-1 w-fit mb-6">
@@ -85,7 +97,7 @@ export function EditInvoice({ data }: IeditInvoiceProps) {
           </div>
 
           <div className="grid md:grid-cols-3 gap-6 mb-6">
-            <div>
+            <div className="flex flex-col gap-y-1">
               <Label>Invoice No.</Label>
               <div className="flex">
                 <span className="px-3 border border-r-0 rounded-l-md bg-muted flex items-center">
@@ -104,21 +116,20 @@ export function EditInvoice({ data }: IeditInvoiceProps) {
               </p>
             </div>
 
-            <div>
+            <div className="flex flex-col gap-y-1">
               <Label>Currency</Label>
               <Select
                 defaultValue="USD"
                 name={fields.currency.name}
                 key={fields.currency.key}
-                onValueChange={(value) => setCurrency(value)}
+                onValueChange={(value) => setCurrency(value  as "USD" | "EUR" | "INR")}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Select Currency" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="USD">
-                    United States Dollar -- USD
-                  </SelectItem>
+                <SelectItem value="USD">US Dollar -- USD</SelectItem>
+                  <SelectItem value="INR">Indian Rupee -- INR</SelectItem>
                   <SelectItem value="EUR">Euro -- EUR</SelectItem>
                 </SelectContent>
               </Select>
@@ -127,7 +138,7 @@ export function EditInvoice({ data }: IeditInvoiceProps) {
           </div>
 
           <div className="grid md:grid-cols-2 gap-6 mb-6">
-            <div>
+            <div className="flex flex-col gap-y-1">
               <Label>From</Label>
               <div className="space-y-2">
                 <Input
@@ -158,7 +169,7 @@ export function EditInvoice({ data }: IeditInvoiceProps) {
               </div>
             </div>
 
-            <div>
+            <div className="flex flex-col gap-y-1">
               <Label>To</Label>
               <div className="space-y-2">
                 <Input
@@ -193,11 +204,11 @@ export function EditInvoice({ data }: IeditInvoiceProps) {
           </div>
 
           <div className="grid md:grid-cols-2 gap-6 mb-6">
-            <div>
+            <div className="flex flex-col gap-y-1">
               <div>
                 <Label>Date</Label>
               </div>
-              <Popover>
+              <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
                   <Button
                     variant="outline"
@@ -215,16 +226,23 @@ export function EditInvoice({ data }: IeditInvoiceProps) {
                 <PopoverContent>
                   <Calendar
                     selected={selectedDate}
-                    onSelect={(date) => setSelectedDate(date || new Date())}
+                    onSelect={(date) => {
+                      setSelectedDate(date);
+                      setOpen(false);
+                    }}
                     mode="single"
-                    fromDate={new Date()}
+                    disabled={(date) => {
+                      const yesterday = new Date();
+                      yesterday.setDate(yesterday.getDate() - 1);
+                      return date < yesterday;
+                    }}
                   />
                 </PopoverContent>
               </Popover>
               <p className="text-red-500 text-sm">{fields.date.errors}</p>
             </div>
 
-            <div>
+            <div className="flex flex-col gap-y-1">
               <Label>Invoice Due</Label>
               <Select
                 name={fields.dueDate.name}
@@ -292,10 +310,7 @@ export function EditInvoice({ data }: IeditInvoiceProps) {
               </div>
               <div className="col-span-2">
                 <Input
-                  value={formatCurrency({
-                    amount: calcualteTotal,
-                    currency: currency as any,
-                  })}
+                  value={formatCurrency({ amount: Number(total), currency })}
                   disabled
                 />
               </div>
@@ -307,25 +322,19 @@ export function EditInvoice({ data }: IeditInvoiceProps) {
               <div className="flex justify-between py-2">
                 <span>Subtotal</span>
                 <span>
-                  {formatCurrency({
-                    amount: calcualteTotal,
-                    currency: currency as any,
-                  })}
+                {formatCurrency({ amount: Number(total), currency })}
                 </span>
               </div>
               <div className="flex justify-between py-2 border-t">
                 <span>Total ({currency})</span>
                 <span className="font-medium underline underline-offset-2">
-                  {formatCurrency({
-                    amount: calcualteTotal,
-                    currency: currency as any,
-                  })}
+                {formatCurrency({ amount: Number(total), currency })}
                 </span>
               </div>
             </div>
           </div>
 
-          <div>
+          <div className="flex flex-col gap-y-1">
             <Label>Note</Label>
             <Textarea
               name={fields.note.name}
