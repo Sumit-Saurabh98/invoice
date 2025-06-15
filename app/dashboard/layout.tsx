@@ -127,7 +127,7 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
           </main>
         </div>
       </div>
-      <Toaster richColors closeButton />
+      <Toaster richColors closeButton theme="light" />
     </>
   );
 };
